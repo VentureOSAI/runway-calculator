@@ -3,141 +3,164 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Startup Runway Calculator | VentureOS AI</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+<title>Startup Runway Calculator | VentureOS AI Tools</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
   :root {
-    --black: #0a0a0a;
-    --white: #f5f2ee;
-    --accent: #ff4d00;
-    --accent2: #ffb800;
-    --green: #00e87b;
-    --red: #ff2d55;
-    --amber: #ffb800;
-    --card: #141414;
-    --border: #222;
-    --muted: #555;
+    --white: #ffffff;
+    --off-white: #f8f6f2;
+    --light: #f0ede8;
+    --border: #e2ddd8;
+    --text: #1a1a1a;
+    --text-muted: #6b6560;
+    --text-light: #9c9691;
+    --accent: #e8401c;
+    --accent-dark: #c23416;
+    --accent-light: #fff1ee;
+    --green: #0a7c4e;
+    --green-bg: #edfaf3;
+    --green-border: #b6e8d3;
+    --amber: #92620a;
+    --amber-bg: #fef9ee;
+    --amber-border: #f0d898;
+    --red: #c41d3d;
+    --red-bg: #fff0f3;
+    --red-border: #f5b8c4;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.10);
+    --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
-    background: var(--black);
-    color: var(--white);
-    font-family: 'DM Mono', monospace;
+    background: var(--off-white);
+    color: var(--text);
+    font-family: 'Plus Jakarta Sans', sans-serif;
     min-height: 100vh;
-    overflow-x: hidden;
+    line-height: 1.6;
   }
 
-  /* Grid background */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(255,77,0,0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,77,0,0.04) 1px, transparent 1px);
-    background-size: 40px 40px;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  .container {
-    max-width: 780px;
-    margin: 0 auto;
-    padding: 40px 24px 80px;
-    position: relative;
-    z-index: 1;
-  }
-
-  /* Header */
-  .header {
+  /* Top bar */
+  .topbar {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 24px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 56px;
   }
 
   .logo {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: 13px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--accent);
-  }
-
-  .logo span {
-    color: var(--white);
-    opacity: 0.4;
-  }
-
-  .badge {
-    font-size: 10px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    padding: 5px 12px;
-    border: 1px solid var(--border);
-    color: var(--muted);
-  }
-
-  /* Hero */
-  .hero {
-    margin-bottom: 48px;
-  }
-
-  .hero-label {
-    font-size: 10px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 16px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--text);
+    text-decoration: none;
     display: flex;
     align-items: center;
     gap: 8px;
   }
 
-  .hero-label::before {
-    content: '';
-    width: 24px;
-    height: 1px;
+  .logo-dot {
+    width: 8px;
+    height: 8px;
     background: var(--accent);
+    border-radius: 50%;
     display: inline-block;
   }
 
+  .logo span { color: var(--text-muted); font-weight: 500; }
+
+  .topbar-badge {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: var(--green);
+    background: var(--green-bg);
+    border: 1px solid var(--green-border);
+    padding: 4px 12px;
+    border-radius: 20px;
+  }
+
+  /* Hero section */
+  .hero {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 56px 24px 48px;
+    text-align: center;
+  }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+    padding: 6px 16px;
+    background: var(--accent-light);
+    border-radius: 20px;
+  }
+
   .hero h1 {
-    font-family: 'Syne', sans-serif;
+    font-family: 'Playfair Display', serif;
     font-weight: 800;
-    font-size: clamp(32px, 6vw, 52px);
-    line-height: 1.0;
+    font-size: clamp(36px, 6vw, 60px);
+    line-height: 1.1;
+    color: var(--text);
+    margin-bottom: 20px;
     letter-spacing: -0.02em;
-    margin-bottom: 16px;
   }
 
   .hero h1 em {
-    font-style: normal;
+    font-style: italic;
     color: var(--accent);
   }
 
   .hero p {
-    font-size: 13px;
-    color: var(--muted);
+    font-size: 17px;
+    color: var(--text-muted);
+    max-width: 520px;
+    margin: 0 auto;
     line-height: 1.7;
-    max-width: 480px;
   }
 
-  /* Form */
+  /* Main content */
+  .main {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  /* Form card */
   .form-card {
-    background: var(--card);
+    background: var(--white);
     border: 1px solid var(--border);
+    border-radius: 16px;
     padding: 40px;
-    margin-bottom: 32px;
+    box-shadow: var(--shadow-md);
+    margin-bottom: 24px;
+  }
+
+  .form-title {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
   }
 
   .form-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 24px;
+    gap: 20px;
     margin-bottom: 32px;
   }
 
@@ -146,211 +169,100 @@
     .form-card { padding: 24px; }
   }
 
-  .field {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
+  .field { display: flex; flex-direction: column; gap: 8px; }
 
   .field label {
-    font-size: 10px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--muted);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
   }
 
-  .input-wrap {
-    position: relative;
+  .field-hint {
+    font-size: 11px;
+    color: var(--text-light);
+    margin-top: -4px;
   }
 
-  .currency {
+  .input-wrap { position: relative; }
+
+  .input-prefix {
     position: absolute;
     left: 14px;
     top: 50%;
     transform: translateY(-50%);
-    font-size: 13px;
-    color: var(--muted);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-muted);
     pointer-events: none;
   }
 
   input[type="number"] {
     width: 100%;
-    background: #1a1a1a;
-    border: 1px solid var(--border);
-    color: var(--white);
-    font-family: 'DM Mono', monospace;
+    background: var(--off-white);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    font-family: 'Plus Jakarta Sans', sans-serif;
     font-size: 16px;
-    padding: 14px 14px 14px 30px;
+    font-weight: 600;
+    padding: 13px 14px 13px 34px;
     outline: none;
-    transition: border-color 0.2s;
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
     -moz-appearance: textfield;
   }
 
   input[type="number"]::-webkit-inner-spin-button,
   input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
 
-  input[type="number"]:focus { border-color: var(--accent); }
+  input[type="number"]:focus {
+    border-color: var(--accent);
+    background: var(--white);
+    box-shadow: 0 0 0 3px rgba(232,64,28,0.08);
+  }
 
-  .field.full { grid-column: 1 / -1; }
+  input[type="number"]::placeholder { color: var(--text-light); font-weight: 400; }
 
   .calc-btn {
     width: 100%;
     background: var(--accent);
     color: var(--white);
     border: none;
-    font-family: 'Syne', sans-serif;
+    border-radius: 12px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
     font-weight: 700;
-    font-size: 13px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    padding: 18px;
+    font-size: 16px;
+    padding: 17px;
     cursor: pointer;
-    transition: background 0.2s, transform 0.1s;
+    transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+    box-shadow: 0 4px 14px rgba(232,64,28,0.3);
+    letter-spacing: 0.01em;
   }
 
-  .calc-btn:hover { background: #e04400; }
-  .calc-btn:active { transform: scale(0.99); }
+  .calc-btn:hover {
+    background: var(--accent-dark);
+    box-shadow: 0 6px 20px rgba(232,64,28,0.35);
+    transform: translateY(-1px);
+  }
 
-  /* Result */
+  .calc-btn:active { transform: translateY(0); }
+
+  /* Result panel */
   .result {
     display: none;
-    border: 1px solid var(--border);
-    overflow: hidden;
-    animation: fadeUp 0.4s ease;
+    animation: fadeUp 0.45s cubic-bezier(0.2,0,0,1);
   }
 
   .result.show { display: block; }
 
   @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(12px); }
+    from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
   }
 
-  .result-header {
-    padding: 20px 32px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .result-header .label {
-    font-size: 10px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--muted);
-  }
-
-  .verdict {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: 13px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 6px 14px;
-  }
-
-  .verdict.green { background: rgba(0,232,123,0.1); color: var(--green); border: 1px solid rgba(0,232,123,0.3); }
-  .verdict.amber { background: rgba(255,184,0,0.1); color: var(--amber); border: 1px solid rgba(255,184,0,0.3); }
-  .verdict.red { background: rgba(255,45,85,0.1); color: var(--red); border: 1px solid rgba(255,45,85,0.3); }
-
-  .result-body {
-    padding: 40px 32px;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 32px;
-  }
-
-  @media (max-width: 560px) {
-    .result-body { grid-template-columns: 1fr; padding: 24px; }
-    .result-header { padding: 16px 24px; }
-  }
-
-  .metric {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  .metric-label {
-    font-size: 10px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--muted);
-  }
-
-  .metric-value {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: 28px;
-    line-height: 1;
-  }
-
-  .metric-value.green { color: var(--green); }
-  .metric-value.amber { color: var(--amber); }
-  .metric-value.red { color: var(--red); }
-
-  .metric-sub {
-    font-size: 11px;
-    color: var(--muted);
-  }
-
-  /* Gauge bar */
-  .gauge-wrap {
-    grid-column: 1 / -1;
-    margin-top: 8px;
-  }
-
-  .gauge-label {
-    font-size: 10px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 10px;
-  }
-
-  .gauge-track {
-    height: 6px;
-    background: #222;
-    overflow: hidden;
-  }
-
-  .gauge-fill {
-    height: 100%;
-    transition: width 1s cubic-bezier(0.4,0,0.2,1);
-    width: 0%;
-  }
-
-  .gauge-fill.green { background: var(--green); }
-  .gauge-fill.amber { background: var(--amber); }
-  .gauge-fill.red { background: var(--red); }
-
-  /* Action box */
-  .action-box {
-    padding: 24px 32px;
-    border-top: 1px solid var(--border);
-    background: #111;
-  }
-
-  .action-title {
-    font-size: 10px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 10px;
-  }
-
-  .action-text {
-    font-size: 13px;
-    line-height: 1.6;
-    color: var(--white);
-  }
-
-  /* Footer */
-  .footer {
-    margin-top: 64px;
-    padding-top: 24px;
-    border-top: 1px solid var(--border);
+  /* Verdict banner */
+  .verdict-banner {
+    border-radius: 12px 12px 0 0;
+    padding: 20px 28px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -358,76 +270,232 @@
     gap: 12px;
   }
 
-  .footer-brand {
-    font-family: 'Syne', sans-serif;
-    font-size: 11px;
+  .verdict-banner.green { background: var(--green-bg); border: 1px solid var(--green-border); border-bottom: none; }
+  .verdict-banner.amber { background: var(--amber-bg); border: 1px solid var(--amber-border); border-bottom: none; }
+  .verdict-banner.red { background: var(--red-bg); border: 1px solid var(--red-border); border-bottom: none; }
+
+  .verdict-label {
+    font-size: 13px;
     font-weight: 700;
-    letter-spacing: 0.1em;
-    color: var(--muted);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
   }
 
-  .footer-brand strong { color: var(--accent); }
+  .verdict-label.green { color: var(--green); }
+  .verdict-label.amber { color: var(--amber); }
+  .verdict-label.red { color: var(--red); }
+
+  .verdict-desc { font-size: 13px; color: var(--text-muted); }
+
+  /* Metrics card */
+  .metrics-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-top: none;
+    padding: 32px 28px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  @media (max-width: 560px) {
+    .metrics-card { grid-template-columns: 1fr 1fr; padding: 20px; }
+  }
+
+  .metric { display: flex; flex-direction: column; gap: 4px; }
+
+  .metric-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-light);
+  }
+
+  .metric-value {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 34px;
+    line-height: 1.1;
+  }
+
+  .metric-value.green { color: var(--green); }
+  .metric-value.amber { color: var(--amber); }
+  .metric-value.red { color: var(--red); }
+  .metric-value.neutral { color: var(--text); }
+
+  .metric-sub { font-size: 12px; color: var(--text-muted); }
+
+  /* Gauge */
+  .gauge-section {
+    grid-column: 1 / -1;
+    padding-top: 8px;
+    border-top: 1px solid var(--border);
+    margin-top: 8px;
+  }
+
+  .gauge-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .gauge-label { font-size: 12px; font-weight: 600; color: var(--text-muted); }
+  .gauge-pct { font-size: 12px; font-weight: 700; color: var(--text); }
+
+  .gauge-track {
+    height: 8px;
+    background: var(--light);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+
+  .gauge-fill {
+    height: 100%;
+    border-radius: 99px;
+    transition: width 1.2s cubic-bezier(0.4,0,0.2,1);
+    width: 0%;
+  }
+
+  .gauge-fill.green { background: linear-gradient(90deg, #0a7c4e, #14b87a); }
+  .gauge-fill.amber { background: linear-gradient(90deg, #92620a, #d4920f); }
+  .gauge-fill.red { background: linear-gradient(90deg, #c41d3d, #e8405c); }
+
+  /* Action box */
+  .action-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-top: none;
+    border-radius: 0 0 12px 12px;
+    padding: 24px 28px;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .action-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .action-icon.green { background: var(--green-bg); }
+  .action-icon.amber { background: var(--amber-bg); }
+  .action-icon.red { background: var(--red-bg); }
+
+  .action-content {}
+
+  .action-title {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+
+  .action-text {
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.65;
+  }
+
+  /* Footer */
+  .footer {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 24px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    border-top: 1px solid var(--border);
+    padding-top: 24px;
+  }
+
+  .footer-brand { font-size: 13px; color: var(--text-muted); }
+  .footer-brand strong { color: var(--accent); font-weight: 700; }
 
   .footer-link {
-    font-size: 11px;
-    color: var(--muted);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-muted);
     text-decoration: none;
-    letter-spacing: 0.05em;
     transition: color 0.2s;
   }
 
-  .footer-link:hover { color: var(--white); }
+  .footer-link:hover { color: var(--accent); }
 
-  .divider {
-    width: 40px;
-    height: 1px;
-    background: var(--border);
-    margin: 8px 0 24px;
+  .built-by {
+    font-size: 11px;
+    color: var(--text-light);
+    text-align: center;
+    padding: 0 24px 32px;
+    max-width: 720px;
+    margin: 0 auto;
   }
 </style>
 </head>
 <body>
-<div class="container">
 
-  <header class="header">
-    <div class="logo">Venture<span>OS</span> AI <span>/ Tools</span></div>
-    <div class="badge">Free Tool — No Login</div>
-  </header>
+<!-- Top bar -->
+<div class="topbar">
+  <a href="https://ventureosai.com" class="logo" target="_blank">
+    <span class="logo-dot"></span>
+    VentureOS AI <span>/ Tools</span>
+  </a>
+  <div class="topbar-badge">✓ Free — No Login Required</div>
+</div>
 
-  <div class="hero">
-    <div class="hero-label">Startup Runway Calculator</div>
-    <h1>How long before<br/>your startup <em>dies?</em></h1>
-    <div class="divider"></div>
-    <p>Enter your numbers. Get your runway in seconds. No spreadsheets. No guesswork. No mercy.</p>
-  </div>
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-eyebrow">💸 Startup Runway Calculator</div>
+  <h1>How long before<br/>your startup <em>runs dry?</em></h1>
+  <p>Enter 4 numbers. Get your exact runway, break-even projection, and a clear survival verdict — in seconds.</p>
+</div>
 
+<!-- Main -->
+<div class="main">
   <div class="form-card">
+    <div class="form-title">Enter Your Numbers</div>
     <div class="form-grid">
       <div class="field">
-        <label>Cash in Bank (£/$)</label>
+        <label>Cash in Bank</label>
+        <div class="field-hint">Total available cash right now</div>
         <div class="input-wrap">
-          <span class="currency">$</span>
-          <input type="number" id="cash" placeholder="50000" min="0"/>
+          <span class="input-prefix">$</span>
+          <input type="number" id="cash" placeholder="50,000" min="0"/>
         </div>
       </div>
       <div class="field">
-        <label>Monthly Burn Rate (£/$)</label>
+        <label>Monthly Burn Rate</label>
+        <div class="field-hint">Total monthly expenses</div>
         <div class="input-wrap">
-          <span class="currency">$</span>
-          <input type="number" id="burn" placeholder="8000" min="0"/>
+          <span class="input-prefix">$</span>
+          <input type="number" id="burn" placeholder="8,000" min="0"/>
         </div>
       </div>
       <div class="field">
-        <label>Monthly Revenue (£/$)</label>
+        <label>Monthly Revenue</label>
+        <div class="field-hint">Current monthly income</div>
         <div class="input-wrap">
-          <span class="currency">$</span>
-          <input type="number" id="revenue" placeholder="2000" min="0"/>
+          <span class="input-prefix">$</span>
+          <input type="number" id="revenue" placeholder="2,000" min="0"/>
         </div>
       </div>
       <div class="field">
-        <label>Monthly Revenue Growth (%)</label>
+        <label>Revenue Growth Rate</label>
+        <div class="field-hint">Month-over-month % growth</div>
         <div class="input-wrap">
-          <span class="currency">%</span>
+          <span class="input-prefix">%</span>
           <input type="number" id="growth" placeholder="10" min="0" max="200"/>
         </div>
       </div>
@@ -435,12 +503,13 @@
     <button class="calc-btn" onclick="calculate()">Calculate My Runway →</button>
   </div>
 
+  <!-- Result -->
   <div class="result" id="result">
-    <div class="result-header">
-      <div class="label">Runway Diagnosis</div>
-      <div class="verdict" id="verdict-badge">—</div>
+    <div class="verdict-banner" id="verdict-banner">
+      <div class="verdict-label" id="verdict-label">—</div>
+      <div class="verdict-desc" id="verdict-desc">—</div>
     </div>
-    <div class="result-body">
+    <div class="metrics-card">
       <div class="metric">
         <div class="metric-label">Runway</div>
         <div class="metric-value" id="runway-val">—</div>
@@ -448,38 +517,49 @@
       </div>
       <div class="metric">
         <div class="metric-label">Net Monthly Burn</div>
-        <div class="metric-value" id="net-burn-val">—</div>
-        <div class="metric-sub">cash consumed/month</div>
+        <div class="metric-value neutral" id="net-burn-val">—</div>
+        <div class="metric-sub">cash used per month</div>
       </div>
       <div class="metric">
         <div class="metric-label">Break-even</div>
         <div class="metric-value" id="breakeven-val">—</div>
         <div class="metric-sub">months to profitability</div>
       </div>
-      <div class="gauge-wrap">
-        <div class="gauge-label">Survival Health</div>
+      <div class="gauge-section">
+        <div class="gauge-header">
+          <div class="gauge-label">Survival Health Score</div>
+          <div class="gauge-pct" id="gauge-pct">—</div>
+        </div>
         <div class="gauge-track">
           <div class="gauge-fill" id="gauge-fill"></div>
         </div>
       </div>
     </div>
-    <div class="action-box">
-      <div class="action-title">Your Next Move</div>
-      <div class="action-text" id="action-text">—</div>
+    <div class="action-card">
+      <div class="action-icon" id="action-icon">💡</div>
+      <div class="action-content">
+        <div class="action-title">Your Next Move</div>
+        <div class="action-text" id="action-text">—</div>
+      </div>
     </div>
   </div>
+</div>
 
-  <footer class="footer">
-    <div class="footer-brand">Powered by <strong>VentureOS AI</strong> · Built by Sceamdo</div>
-    <a href="https://ventureosai.com" class="footer-link" target="_blank">ventureosai.com →</a>
-  </footer>
-
+<!-- Footer -->
+<div class="footer">
+  <div class="footer-brand">Powered by <strong>VentureOS AI</strong> · Built by Sceamdo</div>
+  <a href="https://ventureosai.com" class="footer-link" target="_blank">ventureosai.com →</a>
+</div>
+<div class="built-by">
+  Mohammad Bukkar | Economic Systems Architect & Founder — Sceamdo · VentureOS AI · Bukkar Ltd
 </div>
 
 <script>
-function fmt(n) {
-  if (n === Infinity || isNaN(n)) return '∞';
-  return n >= 1000 ? '$' + (n/1000).toFixed(0) + 'k' : '$' + Math.round(n);
+function fmtMoney(n) {
+  if (isNaN(n) || n === Infinity) return '—';
+  if (n >= 1000000) return '$' + (n/1000000).toFixed(1) + 'M';
+  if (n >= 1000) return '$' + (n/1000).toFixed(0) + 'k';
+  return '$' + Math.round(n);
 }
 
 function calculate() {
@@ -489,20 +569,18 @@ function calculate() {
   const growth = parseFloat(document.getElementById('growth').value) || 0;
 
   if (!cash || !burn) {
-    alert('Please enter your cash balance and monthly burn rate.');
+    alert('Please enter your cash balance and monthly burn rate to continue.');
     return;
   }
 
   const netBurn = burn - revenue;
-
-  // Calculate runway with growth
   let remaining = cash;
   let months = 0;
   let rev = revenue;
   let breakEvenMonth = null;
 
   if (netBurn <= 0 && growth === 0) {
-    months = 999;
+    months = 120;
   } else {
     for (let i = 0; i < 240; i++) {
       const currentBurn = burn - rev;
@@ -515,52 +593,68 @@ function calculate() {
     }
   }
 
-  // Colour scheme
-  let colour, label, action;
+  let colour, verdictText, verdictDesc, actionIcon, action;
+
   if (months >= 18) {
     colour = 'green';
-    label = '✓ HEALTHY';
-    action = `You have ${months >= 120 ? '12+' : months} months of runway. Use this window aggressively — hire, acquire, and build moats. Don't get comfortable; deploy capital toward revenue-generating activities and begin your next fundraise at the 12-month mark.`;
+    verdictText = '✓ Healthy Runway';
+    verdictDesc = 'You have breathing room — use it strategically';
+    actionIcon = '🚀';
+    action = `You have ${months >= 120 ? '12+' : months} months of runway — a genuine competitive advantage. Deploy capital aggressively toward revenue-generating activities: hire key roles, invest in acquisition channels, and build moats. Begin preparing your next fundraise at the 12-month mark so you negotiate from strength, not desperation.`;
   } else if (months >= 9) {
     colour = 'amber';
-    label = '⚠ WARNING';
-    action = `${months} months is a yellow light, not a green one. Begin fundraising conversations immediately — it takes 3–6 months to close a round. Simultaneously reduce discretionary burn by 15–20% and identify your top 3 revenue acceleration levers.`;
+    verdictText = '⚠ Warning Zone';
+    verdictDesc = 'Action required now — not next quarter';
+    actionIcon = '⚡';
+    action = `${months} months feels comfortable — it isn't. Fundraising takes 3–6 months minimum. Start investor conversations this week. Simultaneously cut discretionary spend by 15–20% and identify your top 3 fastest paths to revenue. You need to extend this runway or close funding before hitting 6 months.`;
   } else {
     colour = 'red';
-    label = '✗ CRITICAL';
-    action = `${months < 3 ? 'Under 3 months' : months + ' months'} is a survival emergency. Stop all non-essential spend today. Contact your top 5 potential investors this week. Explore bridge financing, revenue-based financing, or a strategic pivot to a faster revenue model. Every day without action costs you options.`;
+    verdictText = '✗ Critical — Act Today';
+    verdictDesc = 'Every week of inaction costs you options';
+    actionIcon = '🚨';
+    action = `${months < 3 ? 'Under 3 months' : months + ' months'} is a survival emergency. Stop all non-essential spend immediately. Contact your top 5 potential investors or angels today — not next week. Explore bridge financing, revenue-based financing, or an emergency pivot to a faster-revenue model. Your only job right now is buying more time.`;
   }
 
-  // Render
-  const runwayEl = document.getElementById('runway-val');
-  const netBurnEl = document.getElementById('net-burn-val');
-  const breakevenEl = document.getElementById('breakeven-val');
-  const gaugeEl = document.getElementById('gauge-fill');
-  const verdictEl = document.getElementById('verdict-badge');
-  const actionEl = document.getElementById('action-text');
+  // Update DOM
+  const verdictBanner = document.getElementById('verdict-banner');
+  verdictBanner.className = 'verdict-banner ' + colour;
 
-  const displayMonths = months >= 120 ? '120+' : months;
-  runwayEl.textContent = displayMonths;
+  document.getElementById('verdict-label').textContent = verdictText;
+  document.getElementById('verdict-label').className = 'verdict-label ' + colour;
+  document.getElementById('verdict-desc').textContent = verdictDesc;
+
+  const runwayEl = document.getElementById('runway-val');
+  runwayEl.textContent = months >= 120 ? '12+' : months;
   runwayEl.className = 'metric-value ' + colour;
 
-  netBurnEl.textContent = fmt(Math.max(0, netBurn));
-  netBurnEl.className = 'metric-value ' + (netBurn <= 0 ? 'green' : colour);
+  document.getElementById('net-burn-val').textContent = netBurn <= 0 ? 'Cash positive' : fmtMoney(netBurn);
 
-  breakevenEl.textContent = breakEvenMonth !== null ? breakEvenMonth : (netBurn <= 0 ? 'Now' : '—');
-  breakevenEl.className = 'metric-value ' + (breakEvenMonth !== null || netBurn <= 0 ? 'green' : 'red');
+  const breakevenEl = document.getElementById('breakeven-val');
+  if (breakEvenMonth !== null) {
+    breakevenEl.textContent = breakEvenMonth === 0 ? 'Now' : breakEvenMonth;
+    breakevenEl.className = 'metric-value green';
+  } else if (netBurn <= 0) {
+    breakevenEl.textContent = 'Now';
+    breakevenEl.className = 'metric-value green';
+  } else {
+    breakevenEl.textContent = '—';
+    breakevenEl.className = 'metric-value neutral';
+  }
 
-  const gaugePercent = Math.min(100, (months / 24) * 100);
-  gaugeEl.style.width = gaugePercent + '%';
+  const pct = Math.min(100, Math.round((months / 24) * 100));
+  document.getElementById('gauge-pct').textContent = pct + '%';
+  const gaugeEl = document.getElementById('gauge-fill');
+  gaugeEl.style.width = '0%';
   gaugeEl.className = 'gauge-fill ' + colour;
+  setTimeout(() => { gaugeEl.style.width = pct + '%'; }, 50);
 
-  verdictEl.textContent = label;
-  verdictEl.className = 'verdict ' + colour;
-
-  actionEl.textContent = action;
+  document.getElementById('action-icon').textContent = actionIcon;
+  document.getElementById('action-icon').className = 'action-icon ' + colour;
+  document.getElementById('action-text').textContent = action;
 
   const result = document.getElementById('result');
   result.className = 'result show';
-  result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  setTimeout(() => result.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 100);
 }
 
 document.addEventListener('keydown', e => { if (e.key === 'Enter') calculate(); });
