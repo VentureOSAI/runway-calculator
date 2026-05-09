@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Startup Runway Calculator | VentureOS AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --black: #0a0a0a;
+    --white: #f5f2ee;
+    --accent: #ff4d00;
+    --accent2: #ffb800;
+    --green: #00e87b;
+    --red: #ff2d55;
+    --amber: #ffb800;
+    --card: #141414;
+    --border: #222;
+    --muted: #555;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'DM Mono', monospace;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Grid background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,77,0,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,77,0,0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Header */
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 56px;
+  }
+
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 13px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .logo span {
+    color: var(--white);
+    opacity: 0.4;
+  }
+
+  .badge {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+  }
+
+  /* Hero */
+  .hero {
+    margin-bottom: 48px;
+  }
+
+  .hero-label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .hero-label::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--accent);
+    display: inline-block;
+  }
+
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(32px, 6vw, 52px);
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+  }
+
+  .hero h1 em {
+    font-style: normal;
+    color: var(--accent);
+  }
+
+  .hero p {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.7;
+    max-width: 480px;
+  }
+
+  /* Form */
+  .form-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 40px;
+    margin-bottom: 32px;
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+
+  @media (max-width: 560px) {
+    .form-grid { grid-template-columns: 1fr; }
+    .form-card { padding: 24px; }
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .field label {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .input-wrap {
+    position: relative;
+  }
+
+  .currency {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 13px;
+    color: var(--muted);
+    pointer-events: none;
+  }
+
+  input[type="number"] {
+    width: 100%;
+    background: #1a1a1a;
+    border: 1px solid var(--border);
+    color: var(--white);
+    font-family: 'DM Mono', monospace;
+    font-size: 16px;
+    padding: 14px 14px 14px 30px;
+    outline: none;
+    transition: border-color 0.2s;
+    -moz-appearance: textfield;
+  }
+
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
+
+  input[type="number"]:focus { border-color: var(--accent); }
+
+  .field.full { grid-column: 1 / -1; }
+
+  .calc-btn {
+    width: 100%;
+    background: var(--accent);
+    color: var(--white);
+    border: none;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 18px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+  }
+
+  .calc-btn:hover { background: #e04400; }
+  .calc-btn:active { transform: scale(0.99); }
+
+  /* Result */
+  .result {
+    display: none;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    animation: fadeUp 0.4s ease;
+  }
+
+  .result.show { display: block; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .result-header {
+    padding: 20px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .result-header .label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .verdict {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+  }
+
+  .verdict.green { background: rgba(0,232,123,0.1); color: var(--green); border: 1px solid rgba(0,232,123,0.3); }
+  .verdict.amber { background: rgba(255,184,0,0.1); color: var(--amber); border: 1px solid rgba(255,184,0,0.3); }
+  .verdict.red { background: rgba(255,45,85,0.1); color: var(--red); border: 1px solid rgba(255,45,85,0.3); }
+
+  .result-body {
+    padding: 40px 32px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 32px;
+  }
+
+  @media (max-width: 560px) {
+    .result-body { grid-template-columns: 1fr; padding: 24px; }
+    .result-header { padding: 16px 24px; }
+  }
+
+  .metric {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .metric-label {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .metric-value {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 28px;
+    line-height: 1;
+  }
+
+  .metric-value.green { color: var(--green); }
+  .metric-value.amber { color: var(--amber); }
+  .metric-value.red { color: var(--red); }
+
+  .metric-sub {
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  /* Gauge bar */
+  .gauge-wrap {
+    grid-column: 1 / -1;
+    margin-top: 8px;
+  }
+
+  .gauge-label {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+
+  .gauge-track {
+    height: 6px;
+    background: #222;
+    overflow: hidden;
+  }
+
+  .gauge-fill {
+    height: 100%;
+    transition: width 1s cubic-bezier(0.4,0,0.2,1);
+    width: 0%;
+  }
+
+  .gauge-fill.green { background: var(--green); }
+  .gauge-fill.amber { background: var(--amber); }
+  .gauge-fill.red { background: var(--red); }
+
+  /* Action box */
+  .action-box {
+    padding: 24px 32px;
+    border-top: 1px solid var(--border);
+    background: #111;
+  }
+
+  .action-title {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+
+  .action-text {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--white);
+  }
+
+  /* Footer */
+  .footer {
+    margin-top: 64px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .footer-brand {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+  }
+
+  .footer-brand strong { color: var(--accent); }
+
+  .footer-link {
+    font-size: 11px;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: color 0.2s;
+  }
+
+  .footer-link:hover { color: var(--white); }
+
+  .divider {
+    width: 40px;
+    height: 1px;
+    background: var(--border);
+    margin: 8px 0 24px;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header class="header">
+    <div class="logo">Venture<span>OS</span> AI <span>/ Tools</span></div>
+    <div class="badge">Free Tool — No Login</div>
+  </header>
+
+  <div class="hero">
+    <div class="hero-label">Startup Runway Calculator</div>
+    <h1>How long before<br/>your startup <em>dies?</em></h1>
+    <div class="divider"></div>
+    <p>Enter your numbers. Get your runway in seconds. No spreadsheets. No guesswork. No mercy.</p>
+  </div>
+
+  <div class="form-card">
+    <div class="form-grid">
+      <div class="field">
+        <label>Cash in Bank (£/$)</label>
+        <div class="input-wrap">
+          <span class="currency">$</span>
+          <input type="number" id="cash" placeholder="50000" min="0"/>
+        </div>
+      </div>
+      <div class="field">
+        <label>Monthly Burn Rate (£/$)</label>
+        <div class="input-wrap">
+          <span class="currency">$</span>
+          <input type="number" id="burn" placeholder="8000" min="0"/>
+        </div>
+      </div>
+      <div class="field">
+        <label>Monthly Revenue (£/$)</label>
+        <div class="input-wrap">
+          <span class="currency">$</span>
+          <input type="number" id="revenue" placeholder="2000" min="0"/>
+        </div>
+      </div>
+      <div class="field">
+        <label>Monthly Revenue Growth (%)</label>
+        <div class="input-wrap">
+          <span class="currency">%</span>
+          <input type="number" id="growth" placeholder="10" min="0" max="200"/>
+        </div>
+      </div>
+    </div>
+    <button class="calc-btn" onclick="calculate()">Calculate My Runway →</button>
+  </div>
+
+  <div class="result" id="result">
+    <div class="result-header">
+      <div class="label">Runway Diagnosis</div>
+      <div class="verdict" id="verdict-badge">—</div>
+    </div>
+    <div class="result-body">
+      <div class="metric">
+        <div class="metric-label">Runway</div>
+        <div class="metric-value" id="runway-val">—</div>
+        <div class="metric-sub">months remaining</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Net Monthly Burn</div>
+        <div class="metric-value" id="net-burn-val">—</div>
+        <div class="metric-sub">cash consumed/month</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Break-even</div>
+        <div class="metric-value" id="breakeven-val">—</div>
+        <div class="metric-sub">months to profitability</div>
+      </div>
+      <div class="gauge-wrap">
+        <div class="gauge-label">Survival Health</div>
+        <div class="gauge-track">
+          <div class="gauge-fill" id="gauge-fill"></div>
+        </div>
+      </div>
+    </div>
+    <div class="action-box">
+      <div class="action-title">Your Next Move</div>
+      <div class="action-text" id="action-text">—</div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-brand">Powered by <strong>VentureOS AI</strong> · Built by Sceamdo</div>
+    <a href="https://ventureosai.com" class="footer-link" target="_blank">ventureosai.com →</a>
+  </footer>
+
+</div>
+
+<script>
+function fmt(n) {
+  if (n === Infinity || isNaN(n)) return '∞';
+  return n >= 1000 ? '$' + (n/1000).toFixed(0) + 'k' : '$' + Math.round(n);
+}
+
+function calculate() {
+  const cash = parseFloat(document.getElementById('cash').value) || 0;
+  const burn = parseFloat(document.getElementById('burn').value) || 0;
+  const revenue = parseFloat(document.getElementById('revenue').value) || 0;
+  const growth = parseFloat(document.getElementById('growth').value) || 0;
+
+  if (!cash || !burn) {
+    alert('Please enter your cash balance and monthly burn rate.');
+    return;
+  }
+
+  const netBurn = burn - revenue;
+
+  // Calculate runway with growth
+  let remaining = cash;
+  let months = 0;
+  let rev = revenue;
+  let breakEvenMonth = null;
+
+  if (netBurn <= 0 && growth === 0) {
+    months = 999;
+  } else {
+    for (let i = 0; i < 240; i++) {
+      const currentBurn = burn - rev;
+      if (currentBurn <= 0 && breakEvenMonth === null) breakEvenMonth = i;
+      if (currentBurn > 0) remaining -= currentBurn;
+      if (remaining <= 0) { months = i; break; }
+      months = i + 1;
+      if (months >= 120) { months = 120; break; }
+      rev = rev * (1 + growth / 100);
+    }
+  }
+
+  // Colour scheme
+  let colour, label, action;
+  if (months >= 18) {
+    colour = 'green';
+    label = '✓ HEALTHY';
+    action = `You have ${months >= 120 ? '12+' : months} months of runway. Use this window aggressively — hire, acquire, and build moats. Don't get comfortable; deploy capital toward revenue-generating activities and begin your next fundraise at the 12-month mark.`;
+  } else if (months >= 9) {
+    colour = 'amber';
+    label = '⚠ WARNING';
+    action = `${months} months is a yellow light, not a green one. Begin fundraising conversations immediately — it takes 3–6 months to close a round. Simultaneously reduce discretionary burn by 15–20% and identify your top 3 revenue acceleration levers.`;
+  } else {
+    colour = 'red';
+    label = '✗ CRITICAL';
+    action = `${months < 3 ? 'Under 3 months' : months + ' months'} is a survival emergency. Stop all non-essential spend today. Contact your top 5 potential investors this week. Explore bridge financing, revenue-based financing, or a strategic pivot to a faster revenue model. Every day without action costs you options.`;
+  }
+
+  // Render
+  const runwayEl = document.getElementById('runway-val');
+  const netBurnEl = document.getElementById('net-burn-val');
+  const breakevenEl = document.getElementById('breakeven-val');
+  const gaugeEl = document.getElementById('gauge-fill');
+  const verdictEl = document.getElementById('verdict-badge');
+  const actionEl = document.getElementById('action-text');
+
+  const displayMonths = months >= 120 ? '120+' : months;
+  runwayEl.textContent = displayMonths;
+  runwayEl.className = 'metric-value ' + colour;
+
+  netBurnEl.textContent = fmt(Math.max(0, netBurn));
+  netBurnEl.className = 'metric-value ' + (netBurn <= 0 ? 'green' : colour);
+
+  breakevenEl.textContent = breakEvenMonth !== null ? breakEvenMonth : (netBurn <= 0 ? 'Now' : '—');
+  breakevenEl.className = 'metric-value ' + (breakEvenMonth !== null || netBurn <= 0 ? 'green' : 'red');
+
+  const gaugePercent = Math.min(100, (months / 24) * 100);
+  gaugeEl.style.width = gaugePercent + '%';
+  gaugeEl.className = 'gauge-fill ' + colour;
+
+  verdictEl.textContent = label;
+  verdictEl.className = 'verdict ' + colour;
+
+  actionEl.textContent = action;
+
+  const result = document.getElementById('result');
+  result.className = 'result show';
+  result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Enter') calculate(); });
+</script>
+</body>
+</html>
