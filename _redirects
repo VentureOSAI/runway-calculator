@@ -33,3 +33,5 @@
 /pricing             https://ventureosai-pricing.netlify.app                        200!
 /hire                https://ventureosai-hire.netlify.app                           200!
 /cohort-readiness     https://ventureosai-cohort-readiness.netlify.app          200!
+/bukkar/borderless-receive-console/* https://bukkar-borderless-receive-console.netlify.app/:splat 200!
+/bukkar/commerce-consolidator/* https://bukkar-commerce-consolidator.netlify.app/:splat 200!
